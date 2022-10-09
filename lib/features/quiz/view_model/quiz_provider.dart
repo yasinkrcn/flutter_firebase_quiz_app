@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_quiz_app/features/quiz/data/model/question_model.dart';
@@ -8,13 +6,9 @@ import 'package:flutter_firebase_quiz_app/features/quiz/data/model/question_mode
 class QuizProvider extends ChangeNotifier {
   List<QuestionModel> questions = [];
 
-  // QuizProvider({
-  //   required this.questions
-  // })
-
   int categoryIndex = 0;
 
-  int _time = 18;
+  int _time = 100;
 
   int get time => _time;
 
@@ -42,7 +36,6 @@ class QuizProvider extends ChangeNotifier {
         .collection('category')
         .doc('math')
         .collection('questions')
-        // .doc('options')
         .get();
 
     final questionDocs = questionList.docs;
