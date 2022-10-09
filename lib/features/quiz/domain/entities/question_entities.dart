@@ -3,7 +3,7 @@ import 'package:flutter_firebase_quiz_app/features/quiz/data/model/question_mode
 class QuestionsEntities {
   final String question;
   final String answer;
-  final List<OptionsModel> options;
+  final List  options;
 
   QuestionsEntities({
     required this.question,
