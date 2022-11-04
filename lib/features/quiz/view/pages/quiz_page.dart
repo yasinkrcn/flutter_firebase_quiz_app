@@ -1,101 +1,87 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_quiz_app/core/init/injection_container.dart';
-import 'package:flutter_firebase_quiz_app/core/utils/screen_size.dart';
-import 'package:flutter_firebase_quiz_app/features/quiz/data/model/question_model.dart';
-import 'package:flutter_firebase_quiz_app/features/quiz/view/widgets/answer_card_widget.dart';
-import 'package:flutter_firebase_quiz_app/features/quiz/view/widgets/progress_bar.dart';
-import 'package:flutter_firebase_quiz_app/features/quiz/view/widgets/question_space.dart';
-import 'package:flutter_firebase_quiz_app/features/quiz/view_model/quiz_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_firebase_quiz_app/core/utils/route/route_manager.dart';
+import 'package:flutter_firebase_quiz_app/features/quiz/view/widgets/quiz_page_body.dart';
+import 'package:flutter_firebase_quiz_app/features/quiz/view_model/question_controller.dart';
 
 class QuizPage extends StatefulWidget {
-  const QuizPage({
-    Key? key,
-  }) : super(key: key);
+  const QuizPage({super.key});
 
   @override
   State<QuizPage> createState() => _QuizPageState();
 }
 
-class _QuizPageState extends State<QuizPage> {
+class _QuizPageState extends State<QuizPage>
+    with SingleTickerProviderStateMixin {
   @override
   void initState() {
-    //İlgili sayfada direkt olarak bir fonksiyonu bi butona basılmaksızın ayağa kaldırmak için init state içerisine koyacağız
-
     super.initState();
-    sl<QuizProvider>().onInit();
+    sl<QuestionController>().fetchQuestions();
+    sl<QuestionController>().animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 60),
+    );
+
+    sl<QuestionController>().animation = Tween<double>(begin: 0 , end: 1)
+        .animate(sl<QuestionController>().animationController)
+      ..addListener(() {
+        setState(() {});
+      });
+    sl<QuestionController>()
+        .animationController
+        .forward()
+        .whenComplete(sl<QuestionController>().nextQuestion);
+    sl<QuestionController>().pageController = PageController();
   }
 
-// @override
-//   void dispose() {
-
-//     super.dispose();
-
-//     sl<QuizProvider>().onInit();
-//   }
+  @override
+  void dispose() {
+    sl<QuestionController>().fetchQuestions();
+    sl<QuestionController>().animationController.dispose();
+    sl<QuestionController>().pageController.dispose();
+    super.dispose();
+    
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Quiz'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: GestureDetector(
+            onTap: () => Go.to.back(),
+            child: const Icon(
+              Icons.arrow_back_ios_new_outlined,
+              color: Colors.black,
+            )),
         centerTitle: true,
-        backgroundColor: Colors.black,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Consumer<QuizProvider>(
-          builder: (context, quizProvider, child) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ProgressBar(
-                  width: ScreenSize().getWidthPercent(1),
-                  totalValue: 110,
-                  value: quizProvider.time,
-                ),
-                
-                quizProvider.questions.isNotEmpty
-                    ? Center(
-                        child: QuestionSpace(
-                            question: quizProvider
-                                .questions[quizProvider.categoryIndex]),
-                      )
-                    : const SizedBox.shrink(),
-                quizProvider.questions.isNotEmpty
-                    ? AnswerCard(
-                        question:
-                            quizProvider.questions[quizProvider.categoryIndex],
-                      )
-                    : const SizedBox.shrink(),
-                Row(
-      
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-
-
-                    GestureDetector(
-
-                      onTap: () => quizProvider.categoryIndexMinus(),
-                      
-                      child: const Icon(Icons.arrow_circle_left,size: 60,color: Colors.red,)),
-                       GestureDetector(
-
-                      onTap: () => quizProvider.categoryIndexPlus(),
-                      
-                      child: const Icon(Icons.arrow_circle_right,size: 60,color: Colors.green,)),
-                    
-                  
-                    
-                  ],
-                )
-              ],
-            );
-          },
+        title: Text.rich(
+          TextSpan(
+            text: "Question ${sl<QuestionController>().questionNumber}",
+            style: const TextStyle(
+                fontSize: 24, fontWeight: FontWeight.w500, color: Colors.green),
+            children: [
+              TextSpan(
+                text: "/${sl<QuestionController>().questionLimit}",
+                style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.grey.shade700),
+              ),
+            ],
+          ),
         ),
+        actions: [
+          TextButton(
+              onPressed: (() {
+                sl<QuestionController>().nextQuestion();
+              }),
+              child: const Text("Skip")),
+        ],
       ),
+      body: QuizPageBody(),
     );
   }
 }
