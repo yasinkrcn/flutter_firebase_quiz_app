@@ -1,4 +1,7 @@
 import 'package:flutter_firebase_quiz_app/features/auth/view/pages/splash_page.dart';
+import 'package:flutter_firebase_quiz_app/features/home/view/pages/home_page.dart';
+import 'package:flutter_firebase_quiz_app/features/quiz/view/pages/score_page.dart';
+import 'package:flutter_firebase_quiz_app/features/quiz/view/pages/skills_add.dart';
 
 import '/core/init/injection_container.dart' as sl;
 import 'package:firebase_core/firebase_core.dart';
@@ -38,7 +41,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SplashPage(),
+      home: const HomePage(),
     );
   }
 }
