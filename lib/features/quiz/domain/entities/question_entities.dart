@@ -1,9 +1,7 @@
-import 'package:flutter_firebase_quiz_app/features/quiz/data/model/question_model.dart';
-
 class QuestionsEntities {
   final String question;
-  final String answer;
-  final List  options;
+  final int answer;
+  final List options;
 
   QuestionsEntities({
     required this.question,
