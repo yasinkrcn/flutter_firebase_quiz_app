@@ -1,55 +1,62 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase_quiz_app/core/init/injection_container.dart';
-import 'package:flutter_firebase_quiz_app/features/quiz/view_model/quiz_provider.dart';
+import 'package:flutter_firebase_quiz_app/features/quiz/view_model/question_controller.dart';
+import 'package:provider/provider.dart';
 
-class ProgressBar extends StatelessWidget {
-  final double width;
-  final int value;
-  final int totalValue;
-  final double height;
-
+class ProgressBar extends StatefulWidget {
   const ProgressBar({
     Key? key,
-    required this.width,
-    required this.value,
-    required this.totalValue,
-    this.height = 30,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-
-    int time =  sl<QuizProvider>().time;
-    double ratio = value / totalValue;
-    return Stack(
-      children: [
-        Container(
-          height: height,
-          width: width,
-          decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade300),
-              borderRadius: BorderRadius.circular(50)),
-        ),
-        AnimatedContainer(
-          constraints: const BoxConstraints(minWidth: 0),
-          height: height,
-          width: width * ratio,
-          duration: const Duration(seconds: 1),
-          decoration: BoxDecoration(
-            color: (ratio < 0.3)
-                ? Colors.red
-                : (ratio < 0.6)
-                    ? Colors.yellow
-                    : Colors.lightGreen,
-            borderRadius: BorderRadius.circular(50),
-          ),
-          child: Center(child: time > 10 ? Text(time.toString()) : const SizedBox.shrink()),
-        )
-      ],
-    );
-  }
-
-
+  State<ProgressBar> createState() => _ProgressBarState();
 }
 
-
+class _ProgressBarState extends State<ProgressBar> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 35,
+      decoration: BoxDecoration(
+        border: Border.all(color: const Color(0xFF3F4768), width: 2),
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Consumer<QuestionController>(
+        builder: (context, controller, child) {
+          return Stack(
+            children: [
+              LayoutBuilder(
+                builder: (context, constraints) => Container(
+                  width: constraints.maxWidth * controller.animation.value,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color.fromARGB(255, 198, 208, 233),
+                        Color.fromARGB(255, 140, 114, 236)
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
+              ),
+              Positioned.fill(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("${(controller.animation.value * 60).round()} sec"),
+                      const Icon(Icons.timer),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
