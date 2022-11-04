@@ -22,6 +22,7 @@ class AppTextFormField extends StatelessWidget {
   final InputBorder? enabledBorder;
   final int? maxLines;
  final TextAlignVertical? textAlignVertical;
+final TextInputType? keyboardType;
 
   const AppTextFormField._(
       {Key? key,
@@ -40,6 +41,7 @@ class AppTextFormField extends StatelessWidget {
       this.enabledBorder,
       this.maxLines,
       this.textAlignVertical,
+      this.keyboardType,
       })
       : super(key: key);
 
@@ -52,6 +54,7 @@ class AppTextFormField extends StatelessWidget {
     void Function(String)? onChanged,
     double? height,
     TextAlignVertical? textAlignVertical,
+    TextInputType? keyboardType,
   }) {
     return AppTextFormField._(
       controller: controller,
@@ -62,6 +65,7 @@ class AppTextFormField extends StatelessWidget {
       suffixIcon: suffixIcon,
       height: 46,
       textAlignVertical: TextAlignVertical.bottom,
+      keyboardType: keyboardType,
     );
   }
 
@@ -116,7 +120,7 @@ class AppTextFormField extends StatelessWidget {
           focusedBorder: focusedBorder,
           enabledBorder: enabledBorder,
         ),
-        keyboardType: TextInputType.multiline,
+        keyboardType:keyboardType ?? TextInputType.multiline,
         textInputAction: TextInputAction.send,
         style: const TextStyle(fontSize: 16),
         maxLines: maxLines ?? 1,
