@@ -3,7 +3,8 @@ import 'package:flutter_firebase_quiz_app/core/utils/local_data_source/shared_pr
 import 'package:flutter_firebase_quiz_app/core/utils/local_data_source/shared_preferences/domain/usecases/save_data_from_key.dart';
 import 'package:flutter_firebase_quiz_app/features/auth/view_model/login_provider.dart';
 import 'package:flutter_firebase_quiz_app/features/auth/view_model/register_provider.dart';
-import 'package:flutter_firebase_quiz_app/features/quiz/view_model/quiz_provider.dart';
+import 'package:flutter_firebase_quiz_app/features/quiz/view_model/question_controller.dart';
+
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,7 +34,8 @@ Future<void> init() async {
   sl.registerLazySingleton(
       () => LoginProvider(saveDataFromKey: sl<SaveDataFromKey>()));
 
-  sl.registerLazySingleton(() => QuizProvider());
+  // sl.registerLazySingleton(() => QuizProvider());
+  sl.registerLazySingleton(() => QuestionController());
   // sl.registerLazySingleton(() => LoginProvider(saveDataFromKey: sl<SaveDataFromKey>()));
 
   //? Authentication
