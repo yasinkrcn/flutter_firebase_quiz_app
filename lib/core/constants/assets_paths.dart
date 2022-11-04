@@ -9,5 +9,6 @@ class AssetsPath {
   // !SVG
   final String loginSVG = 'assets/svg/login.svg';
   final String googleSVG = 'assets/svg/google.svg';
+  final String backgroundSVG = 'assets/svg/background.svg';
 
 }
