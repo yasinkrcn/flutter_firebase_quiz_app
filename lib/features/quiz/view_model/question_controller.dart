@@ -28,7 +28,7 @@ class QuestionController extends ChangeNotifier {
   Future<void> fetchQuestions() async {
     final questionList = await FirebaseFirestore.instance
         .collection('category')
-        .doc('sport')
+        .doc('entertainment')
         .collection('questions')
         .get();
 
