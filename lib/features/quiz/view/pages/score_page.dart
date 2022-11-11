@@ -18,51 +18,89 @@ class ScorePage extends StatelessWidget {
         child: Stack(
           children: [
             SvgPicture.asset(AssetsPath().backgroundSVG, fit: BoxFit.cover),
-            Consumer<QuestionController>(builder: (context, provider, child) {
+            Consumer<QuestionController>(
+              builder: (context, provider, child) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                      alignment: Alignment.center,
+                      height: 70,
+                      width: 360,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(50)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
 
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Number of questions: ${provider.questionLimit}',
+                     
+
+                          SvgPicture.asset(AssetsPath().generalSVG, height: 48),
+                               Text('number of question' ,style: TextStyle(fontSize: 24),),
+                          Container(
+                            alignment: Alignment.center,
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration( color: Colors.blue,
+                          borderRadius: BorderRadius.circular(50)),
+                            child: Text(
+                              '${provider.questionLimit}',
+                              style: TextStyle(fontSize: 24, color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      height: 65,
+                      width: 290,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+
+                          SvgPicture.asset(AssetsPath().successSVG),
+                          Text(
+                            'correct answers: ${provider.trueAnswers ~/ 7}',
+                            style: TextStyle(fontSize: 24),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      'wrong answers: ${provider.wrongAnswers ~/ 7}',
                       style: TextStyle(fontSize: 24),
                     ),
-                  ),
-                  Text(
-                    'correct answers: ${provider.trueAnswers ~/ 7}',
-                    style: TextStyle(fontSize: 24),
-                  ),
-                  Text(
-                    'wrong answers: ${provider.wrongAnswers ~/ 7}',
-                    style: TextStyle(fontSize: 24),
-                  ),
-                  Text(
-                    'empty answers: ${provider.questionLimit - (provider.wrongAnswers ~/ 7 + provider.trueAnswers ~/ 7)}',
-                    style: TextStyle(fontSize: 24),
-                  ),
-                  // SizedBox(
-                  //   height: 50,
-                  // ),
-                  // ScoreButton(
-                  //   text: 'Play again',
-                  //   color: Colors.red,
-                  //   route: Go.to.page(PageRoutes.quizPage),
-                  // ),
-                  // SizedBox(
-                  //   height: 24,
-                  // ),
-                  // ScoreButton(
-                  //   text: 'Go Home',
-                  //   color: Colors.green,
-                  //    route: Go.to.page(PageRoutes.homePage),
-                  // ),
-                ],
-              );
-              
-            },
-              
+                    Text(
+                      'empty answers: ${provider.questionLimit - (provider.wrongAnswers ~/ 7 + provider.trueAnswers ~/ 7)}',
+                      style: TextStyle(fontSize: 24),
+                    ),
+                    // SizedBox(
+                    //   height: 50,
+                    // ),
+                    // ScoreButton(
+                    //   text: 'Play again',
+                    //   color: Colors.red,
+                    //   route: Go.to.page(PageRoutes.quizPage),
+                    // ),
+                    // SizedBox(
+                    //   height: 24,
+                    // ),
+                    // ScoreButton(
+                    //   text: 'Go Home',
+                    //   color: Colors.green,
+                    //    route: Go.to.page(PageRoutes.homePage),
+                    // ),
+                  ],
+                );
+              },
             )
           ],
         ),
