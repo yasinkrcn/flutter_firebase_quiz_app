@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_firebase_quiz_app/core/constants/category_list.dart';
 import 'package:flutter_firebase_quiz_app/core/functions/show_custom_messenger.dart';
 import 'package:flutter_firebase_quiz_app/core/utils/route/route_manager.dart';
 import 'package:flutter_firebase_quiz_app/core/utils/route/router.dart';
+import 'package:flutter_firebase_quiz_app/features/home/data/model/category_model.dart';
+
 import 'package:flutter_firebase_quiz_app/features/quiz/data/model/question_model.dart';
 
 class QuestionController extends ChangeNotifier {
@@ -18,6 +21,8 @@ class QuestionController extends ChangeNotifier {
   int wrongAnswers = 0;
   int questionLimit = 10;
 
+  String categoryName = '';
+
   TextEditingController answerIndexController = TextEditingController();
 
   TextEditingController optionAController = TextEditingController();
@@ -25,10 +30,16 @@ class QuestionController extends ChangeNotifier {
   TextEditingController optionCController = TextEditingController();
   TextEditingController optionDController = TextEditingController();
   TextEditingController questionController = TextEditingController();
+
+
+  void categorySelect(int index){
+     categoryName = categoryList[index].categoryName.toLowerCase();
+                  Go.to.page(PageRoutes.quizPage);
+  }
   Future<void> fetchQuestions() async {
     final questionList = await FirebaseFirestore.instance
         .collection('category')
-        .doc('entertainment')
+        .doc(categoryName)
         .collection('questions')
         .get();
 
@@ -38,10 +49,7 @@ class QuestionController extends ChangeNotifier {
       return QuestionModel.fromMap(value.data());
     }).toList();
 
-  questions.shuffle();
-
-
-   
+    questions.shuffle();
   }
 
   List<QuestionModel> get questionsList => questions;
@@ -121,17 +129,17 @@ class QuestionController extends ChangeNotifier {
         .get();
 
     // if (isEqual.docs.isEmpty) {
-      if (answerIndexController.text.isNotEmpty) {
-        await FirebaseFirestore.instance
-            .collection("category")
-            .doc("history")
-            .collection("questions")
-            .doc()
-            .set(_questionModel.toMap());
-      } else {
-        showCustomMessenger(
-            CustomMessengerState.ERROR, "Boş veri gönderemezsiniz.");
-      }
+    if (answerIndexController.text.isNotEmpty) {
+      await FirebaseFirestore.instance
+          .collection("category")
+          .doc("history")
+          .collection("questions")
+          .doc()
+          .set(_questionModel.toMap());
+    } else {
+      showCustomMessenger(
+          CustomMessengerState.ERROR, "Boş veri gönderemezsiniz.");
+    }
     // } else {
     //   showCustomMessenger(CustomMessengerState.ERROR,
     //       "Eklemek istediğiniz soru daha önceden eklenmiştir.");
