@@ -3,7 +3,7 @@
 A new Flutter project.
 
 ## Pages
-<img src='[Screenshot_1642603511.png](https://user-images.githubusercontent.com/57758337/201322901-c112878c-7dc3-4f77-99a9-8d4954e5827e.png)' height="600" width="300"></img>
+<img src='Screenshot_1642603511.png' height="600" width="300"></img>
 ![Screenshot_20221111-133657](https://user-images.githubusercontent.com/57758337/201322901-c112878c-7dc3-4f77-99a9-8d4954e5827e.png)
 ![Screenshot_20221111-133716](https://user-images.githubusercontent.com/57758337/201322912-c309728e-52f4-45ac-b98d-1421fbf203af.png)
 ![Screenshot_20221111-133431](https://user-images.githubusercontent.com/57758337/201322615-970335d8-2373-47ea-8751-feeb5241cea6.png)
