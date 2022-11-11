@@ -27,7 +27,7 @@ class RegisterProvider extends ChangeNotifier {
 
   RegisterProvider({
     this.prefs,
-  required  this.saveDataFromKey,
+    required this.saveDataFromKey,
   });
 
   TextEditingController nameController = TextEditingController();
@@ -111,11 +111,11 @@ class RegisterProvider extends ChangeNotifier {
     passwordController.clear();
   }
 
-    Future<void> logout() async {
-  
+  Future<void> logout() async {
     FirebaseAuth.instance.signOut();
     final removeDataFromKey = sl<RemoveDataFromKey>();
-    await removeDataFromKey(SharedPreferenceKeyParams(key: SharedPreferencesKeys.CACHE_USER_INFO));
+    await removeDataFromKey(
+        SharedPreferenceKeyParams(key: SharedPreferencesKeys.CACHE_USER_INFO));
     Go.to.pageAndRemoveUntil(PageRoutes.loginPage);
     clearController();
   }
