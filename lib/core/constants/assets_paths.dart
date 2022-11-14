@@ -13,6 +13,7 @@ class AssetsPath {
   final String errorSVG = 'assets/svg/error.svg';
   final String successSVG = 'assets/svg/success.svg';
   final String warningSVG = 'assets/svg/warning.svg';
+  final String logoSVG = 'assets/svg/logo.svg';
 
   // !Category
   final String sportSVG = 'assets/svg/sport.svg';

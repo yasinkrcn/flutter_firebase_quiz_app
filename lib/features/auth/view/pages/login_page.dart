@@ -30,15 +30,6 @@ class LoginPage extends StatelessWidget {
         child: Consumer<LoginProvider>(
           builder: (context, loginProvider, child) {
             return Column(children: [
-              const Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'We can!!!',
-                    style: TextStyle(fontSize: 36, fontWeight: FontWeight.w400),
-                  )),
-              const SizedBox(
-                height: 16,
-              ),
               Align(
                   alignment: Alignment.center,
                   child: SvgPicture.asset(
@@ -49,41 +40,42 @@ class LoginPage extends StatelessWidget {
                 height: 36,
               ),
               AppTextFormField.standart(
-                  hintText: 'email', controller: loginProvider.emailController,
-                  validator: (String? value) {
-                    if (value != null) {
-                      if (emailValidator(value)) {
-                        return 'Doğru formatta bir mail giriniz';
-                      }
+                hintText: 'email',
+                controller: loginProvider.emailController,
+                validator: (String? value) {
+                  if (value != null) {
+                    if (emailValidator(value)) {
+                      return 'Doğru formatta bir mail giriniz';
                     }
+                  }
 
-                    return null;
-                  },
-                 prefixIcon: const Icon(
-                    Icons.alternate_email,
-                    color: AppColors.blackColor,
-                  ), ),
+                  return null;
+                },
+                prefixIcon: const Icon(
+                  Icons.alternate_email,
+                  color: AppColors.blackColor,
+                ),
+              ),
               const SizedBox(
                 height: 16,
               ),
-              
+
               AppTextFormField.obscure(
                   hintText: 'password',
                   controller: loginProvider.passwordController,
                   validator: (String? value) {
                     if (value != null) {
                       if (value.length < 6) {
-                        return   'Şifreniz en az 6 karakter olmalıdır';
+                        return 'Şifreniz en az 6 karakter olmalıdır';
                       }
 
                       if (value.length >= 50) {
-                     return 'Şifreniz en fazla 50 karakter olmalıdır';
+                        return 'Şifreniz en fazla 50 karakter olmalıdır';
                       }
                     }
 
                     return null;
-                  }
-                  ),
+                  }),
               const SizedBox(
                 height: 8,
               ),
@@ -100,10 +92,11 @@ class LoginPage extends StatelessWidget {
                 height: 16,
               ),
               //Login Button
-              AppButton.standart(onTap: ()async {
-                await loginProvider.login();
-                
-              }, buttonText: 'Login'),
+              AppButton.standart(
+                  onTap: () async {
+                    await loginProvider.login();
+                  },
+                  buttonText: 'Login'),
               const SizedBox(
                 height: 6,
               ),
